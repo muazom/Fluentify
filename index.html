@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fluentify AI</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="shortcut icon" href="Logo.png" type="image/x-icon">
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- Navigation/Sidebar -->
+    <nav class="sidebar">
+      <div class="logo-section">
+        <div class="logo">
+          <img src="Logo.png" alt="Fluentify AI img">
+        </div>
+        <h1>Fluentify AI</h1>
+      </div>
+
+      <div class="nav-links">
+        <button class="nav-btn active" data-page="dashboard">
+          <span class="icon">
+            <i class="fa-solid fa-house"></i>
+          </span>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-btn" data-page="conversation">
+          <span class="icon">
+            <i class="fa-solid fa-comments"></i>
+          </span>
+          <span>Daily Chat</span>
+        </button>
+        <button class="nav-btn" data-page="vocabulary">
+          <span class="icon">
+            <i class="fa-solid fa-book"></i>
+          </span>
+          <span>Vocabulary</span>
+        </button>
+        <button class="nav-btn" data-page="grammar">
+          <span class="icon">
+            <i class="fa-solid fa-pen"></i>
+          </span>
+          <span>Grammar</span>
+        </button>
+        <button class="nav-btn" data-page="speaking">
+          <span class="icon">
+            <i class="fa-solid fa-microphone-lines"></i>
+          </span>
+          <span>Speaking</span>
+        </button>
+        <button class="nav-btn" data-page="profile">
+          <span class="icon">
+            <i class="fa-regular fa-user"></i>
+          </span>
+          <span>Profile</span>
+        </button>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="streak-counter">
+          <span class="flame">
+            <i class="fa-solid fa-fire"></i>
+          </span>
+          <div>
+            <p>Current Streak</p>
+            <p class="streak-number" id="streakDisplay">0 days</p>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="top-header">
+        <div class="header-left">
+          <h2 id="pageTitle">Welcome Back!</h2>
+          <p id="pageSubtitle">Continue your learning journey</p>
+        </div>
+        <div class="header-right">
+          <div class="language-selector">
+            <select id="languageSelect">
+              <option value="spanish">🇪🇸 Spanish</option>
+              <option value="french">🇫🇷 French</option>
+              <option value="german">🇩🇪 German</option>
+              <option value="italian">🇮🇹 Italian</option>
+              <option value="japanese">🇯🇵 Japanese</option>
+              <option value="english">🇬🇧 English</option>
+              <option value="dutch">🇳🇱 Dutch</option>
+              <option value="chinese">🇨🇳 Chinese (Mandarin)</option>
+
+              <option value="portuguese">🇵🇹 Portuguese</option>
+              <option value="russian">🇷🇺 Russian</option>
+              <option value="arabic">🇸🇦 Arabic</option>
+              <option value="korean">🇰🇷 Korean</option>
+              <option value="hindi">🇮🇳 Hindi</option>
+              <option value="turkish">🇹🇷 Turkish</option>
+              <option value="swahili">🇰🇪 Swahili</option>
+              <option value="yoruba">🇳🇬 Yoruba</option>
+              <option value="igbo">🇳🇬 Igbo</option>
+              <option value="hausa">🇳🇬 Hausa</option>
+              <option value="greek">🇬🇷 Greek</option>
+              <option value="swedish">🇸🇪 Swedish</option>
+              <option value="polish">🇵🇱 Polish</option>
+              <option value="ukrainian">🇺🇦 Ukrainian</option>
+              <option value="hebrew">🇮🇱 Hebrew</option>
+              <option value="thai">🇹🇭 Thai</option>
+              <option value="vietnamese">🇻🇳 Vietnamese</option>
+              <option value="indonesian">🇮🇩 Indonesian</option>
+              <option value="filipino">🇵🇭 Filipino</option>
+            </select>
+          </div>
+          <div class="user-badge">
+            <span id="points">0</span>
+            <span>Points</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Pages Container -->
+      <div class="pages-container">
+        <!-- Dashboard Page -->
+        <div class="page" id="dashboard">
+          <div class="dashboard-grid">
+            <div class="stats-row">
+              <div class="stat-card">
+                <div class="stat-icon">
+                  <i class="fa-solid fa-bar-chart"></i>
+                </div>
+                <h3>Total XP</h3>
+                <p class="stat-value" id="totalXp">0</p>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">
+                  <i class="fa-solid fa-chalkboard"></i>
+                </div>
+                <h3>Lessons Today</h3>
+                <p class="stat-value" id="lessonsToday">0</p>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">
+                  <i class="fa-solid fa-bullseye"></i>
+                </div>
+                <h3>Current Level</h3>
+                <p class="stat-value" id="currentLevel">1</p>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">
+                  <i class="fa-solid fa-gem"></i>
+                </div>
+                <h3>Gems</h3>
+                <p class="stat-value" id="gems">0</p>
+              </div>
+            </div>
+
+            <div class="quick-actions">
+              <h3>Quick Start</h3>
+              <div class="action-buttons">
+                <button class="action-btn" onclick="switchPage('conversation')">
+                  <span class="action-icon">
+                    <i class="fa-solid fa-comment"></i>
+                  </span>
+                  <span>Start Conversation</span>
+                </button>
+                <button class="action-btn" onclick="switchPage('vocabulary')">
+                  <span class="action-icon">
+                    <i class="fa-solid fa-book"></i>
+                  </span>
+                  <span>Practice Vocabulary</span>
+                </button>
+                <button class="action-btn" onclick="switchPage('grammar')">
+                  <span class="action-icon">
+                    <i class="fa-solid fa-pen"></i>
+                  </span>
+                  <span>Grammar Quiz</span>
+                </button>
+                <button class="action-btn" onclick="switchPage('speaking')">
+                  <span class="action-icon">
+                    <i class="fa-solid fa-microphone-lines"></i>
+                  </span>
+                  <span>Speaking Practice</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="progress-section">
+              <h3>Weekly Progress</h3>
+              <div class="progress-bar">
+                <div class="progress-fill" id="weeklyProgress"></div>
+              </div>
+              <p id="progressText">0/7 lessons completed this week</p>
+            </div>
+
+            <div class="daily-goal">
+              <h3>Daily Goal</h3>
+              <div class="goal-progress">
+                <div class="progress-bar">
+                  <div class="progress-fill" id="dailyGoalProgress"></div>
+                </div>
+                <p id="dailyGoalText">0/50 XP today</p>
+              </div>
+            </div>
+
+            <div class="achievements">
+              <h3>Recent Achievements</h3>
+              <div class="achievements-grid" id="achievementsGrid">
+                <div class="achievement locked"><span><i class="fa-solid fa-trophy"></i></span>
+                  <p>First Steps</p>
+                </div>
+                <div class="achievement locked"><span><i class="fa-solid fa-star"></i></span>
+                  <p>Vocabulary Master</p>
+                </div>
+                <div class="achievement locked"><span><i class="fa-solid fa-bullseye"></i></span>
+                  <p>Perfect Streak</p>
+                </div>
+                <div class="achievement locked"><span><i class="fa-solid fa-fire"></i></span>
+                  <p>7 Day Streak</p>
+                </div>
+                <div class="achievement locked"><span><i class="fa-solid fa-calendar-check"></i></span>
+                  <p>30 Day Streak</p>
+                </div>
+                <div class="achievement locked"><span><i class="fa-solid fa-book"></i></span>
+                  <p>Grammar Beginner</p>
+                </div>
+                <div class="achievement locked"><span><i class="fa-solid fa-language"></i></span>
+                  <p>100 Words Learned</p>
+                </div>
+                <div class="achievement locked"><span><i class="fa-solid fa-headphones"></i></span>
+                  <p>Listening Pro</p>
+                </div>
+                <div class="achievement locked"><span><i class="fa-solid fa-comments"></i></span>
+                  <p>Conversation Starter</p>
+                </div>
+                <div class="achievement locked"><span><i class="fa-solid fa-pen"></i></span>
+                  <p>Writing Practice Complete</p>
+                </div>
+                <div class="achievement locked"><span><i class="fa-solid fa-globe"></i></span>
+                  <p>Language Explorer</p>
+                </div>
+                <div class="achievement locked"><span><i class="fa-solid fa-crown"></i></span>
+                  <p>Fluency Champion</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Conversation Page -->
+        <div class="page" id="conversation">
+          <div class="conversation-container">
+            <div class="chat-header">
+              <h3>Daily Conversation Practice</h3>
+              <p>Practice real-world conversations with AI</p>
+            </div>
+
+            <div class="chat-area" id="chatArea">
+              <div class="message bot-message">
+                <div class="message-content">
+                  <span id="currentTopic">Let's start a conversation!</span>
+                  <div class="message-options">
+                    <button class="option-btn" onclick="startConversation()">Start New</button>
+                    <button class="option-btn" onclick="loadRandomTopic()">Random Topic</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="input-area">
+              <input type="text" id="conversationInput" placeholder="Type your response..." maxlength="500" />
+              <button id="sendBtn" onclick="sendConversationResponse()">Send</button>
+            </div>
+
+            <div class="response-feedback" id="responseFeedback" style="display: none">
+              <h4>Feedback:</h4>
+              <p id="feedbackText"></p>
+              <button onclick="closeFeeback()">Continue</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vocabulary Page -->
+        <div class="page" id="vocabulary">
+          <div class="vocabulary-container">
+            <div class="quiz-header">
+              <h3>Vocabulary Quiz</h3>
+              <div class="quiz-progress">
+                <span id="vocabProgress">1/5</span>
+                <div class="progress-bar small">
+                  <div class="progress-fill" id="vocabProgressBar" style="width: 20%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-content" id="vocabQuizContent">
+              <div class="question-card">
+                <p class="question" id="vocabQuestion">Loading...</p>
+                <div class="answer-options" id="vocabOptions"></div>
+              </div>
+            </div>
+
+            <div class="quiz-controls">
+              <button id="vocabStartBtn" onclick="startVocabQuiz()">Start Quiz</button>
+              <button id="vocabNextBtn" onclick="nextVocabQuestion()" style="display: none">Next Question</button>
+            </div>
+
+            <div class="quiz-result" id="vocabResult" style="display: none">
+              <h4>Quiz Complete!</h4>
+              <p id="vocabScore"></p>
+              <button onclick="resetVocabQuiz()">Try Again</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grammar Page -->
+        <div class="page" id="grammar">
+          <div class="grammar-container">
+            <div class="quiz-header">
+              <h3>Grammar Challenge</h3>
+              <div class="quiz-progress">
+                <span id="grammarProgress">1/5</span>
+                <div class="progress-bar small">
+                  <div class="progress-fill" id="grammarProgressBar" style="width: 20%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="quiz-content" id="grammarQuizContent">
+              <div class="question-card">
+                <p class="question" id="grammarQuestion">Loading...</p>
+                <div class="answer-options" id="grammarOptions"></div>
+              </div>
+            </div>
+
+            <div class="quiz-controls">
+              <button id="grammarStartBtn" onclick="startGrammarQuiz()">Start Quiz</button>
+              <button id="grammarNextBtn" onclick="nextGrammarQuestion()" style="display: none">Next Question</button>
+            </div>
+
+            <div class="quiz-result" id="grammarResult" style="display: none">
+              <h4>Quiz Complete!</h4>
+              <p id="grammarScore"></p>
+              <button onclick="resetGrammarQuiz()">Try Again</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Speaking Page -->
+        <div class="page" id="speaking">
+          <div class="speaking-container">
+            <div class="speaking-header">
+              <h3>Speaking Practice</h3>
+              <p>Improve your pronunciation and fluency</p>
+            </div>
+
+            <div class="speaking-content">
+              <div class="speaking-prompt" id="speakingPrompt">
+                <p class="prompt-text" id="promptText">Click start to begin speaking practice</p>
+                <p class="prompt-translation" id="promptTranslation"></p>
+              </div>
+
+              <div class="speaking-controls">
+                <button class="speaking-btn" id="startSpeakBtn" onclick="startSpeaking()">
+                  <span class="mic-icon"><i class="fa-solid fa-microphone-lines"></i></span>
+                  Start Speaking
+                </button>
+                <button class="speaking-btn stop-btn" id="stopSpeakBtn" onclick="stopSpeaking()" style="display: none">
+                  <span><i class="fa-solid fa-stop"></i></span>
+                  Stop
+                </button>
+              </div>
+
+              <div class="speaking-feedback" id="speakingFeedback" style="display: none">
+                <h4>Your Recording:</h4>
+                <p id="recordingText">No text detected</p>
+                <div class="feedback-actions">
+                  <button onclick="playRecording()">Play Recording</button>
+                  <button onclick="submitSpeaking()">Submit</button>
+                </div>
+              </div>
+
+              <div class="speaking-analysis" id="speakingAnalysis" style="display: none">
+                <h4>Analysis:</h4>
+                <div class="analysis-item"><span>Pronunciation:</span><span id="pronunciationScore">--</span></div>
+                <div class="analysis-item"><span>Fluency:</span><span id="fluencyScore">--</span></div>
+                <div class="analysis-item"><span>Accuracy:</span><span id="accuracyScore">--</span></div>
+                <button onclick="nextSpeakingPhrase()">Next Phrase</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div class="page" id="profile">
+          <div class="profile-container">
+            <div class="profile-header">
+              <div class="profile-avatar"><i class="fa-regular fa-user"></i></div>
+              <h3 id="profileName">Language Learner</h3>
+              <p id="profileLevel">Level 1</p>
+            </div>
+
+            <div class="profile-sections">
+              <div class="profile-section">
+                <h4>Learning Statistics</h4>
+                <div class="stat-row"><span>Total XP:</span><span id="profileXp">0</span></div>
+                <div class="stat-row"><span>Current Streak:</span><span id="profileStreak">0 days</span></div>
+                <div class="stat-row"><span>Days Learning:</span><span id="profileDaysLearning">0</span></div>
+                <div class="stat-row"><span>Lessons Completed:</span><span id="profileLessons">0</span></div>
+              </div>
+
+              <div class="profile-section">
+                <h4>Preferences</h4>
+                <div class="preference-item">
+                  <label for="profileName">Name:</label>
+                  <input type="text" id="nameInput" placeholder="Enter your name" />
+                </div>
+                <div class="preference-item">
+                  <label for="learningGoal">Learning Goal:</label>
+                  <select id="learningGoal">
+                    <option value="casual">Casual Learning</option>
+                    <option value="professional">Professional Use</option>
+                    <option value="travel">Travel</option>
+                    <option value="fluency">Fluency</option>
+                  </select>
+                </div>
+                <div class="preference-item">
+                  <label for="difficulty">Difficulty Level:</label>
+                  <select id="difficulty">
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="profile-section">
+                <h4>Data Management</h4>
+                <button class="danger-btn" onclick="exportData()">Export Data</button>
+                <button class="danger-btn" onclick="resetAllData()">Reset All Progress</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Toast Notification -->
+      <div class="toast" id="toast"></div>
+
+      <script src="script.js"></script>
+</body>
+
+</html>
