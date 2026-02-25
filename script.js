@@ -868,5 +868,3 @@ function resetAllData() {
 
 
 
-//API Key
-//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
